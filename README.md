@@ -1,47 +1,40 @@
 # Bhavan Kumar — Portfolio
 
-Portable static version of the portfolio, including the Rouhy experience.
-No Node.js installation, build step, server, or API keys are required.
-Edit index.html for content and styles.css for appearance.
+A personal portfolio site built with [Astro](https://astro.build) and deployed to GitHub Pages.
 
-## Publish on GitHub Pages
+## Run it locally
 
-1. Open https://github.com/BhavanCharlie/BhavanCharlie.github.io.
-2. Download and extract this ZIP. Upload its CONTENTS to the repository root,
-   not the ZIP itself or an enclosing folder. Review any existing files before
-   replacing them. index.html, styles.css, and favicon.svg must sit together.
-3. Commit the files to main.
-4. In repository Settings > Pages, choose Deploy from a branch.
-5. Select main and / (root), then Save.
-6. Wait for the Pages deployment to finish. The site URL will be:
-   https://bhavancharlie.github.io/
+Requires Node.js 20.3 or newer.
 
-If Pages is already configured to use GitHub Actions, review its current
-workflow before changing its publishing source.
-GitHub Free supports Pages from public repositories.
+    npm install
+    npm run dev        # http://localhost:4321
 
-## Push from your computer instead
+## Editing content
 
-Clone the existing repository, copy the extracted files into its root, review
-any replacements, then run these commands from the cloned repository:
+| What                                      | Where                         |
+| ----------------------------------------- | ----------------------------- |
+| Name, intro, stats, about, skills, links  | `src/data/site.ts`            |
+| Jobs (one Markdown file per role)         | `src/content/experience/`     |
+| Projects (one Markdown file per project)  | `src/content/projects/`       |
+| Résumé PDF, photo, project screenshots    | `public/`                     |
+| Colors, fonts, layout                     | `src/styles/global.css`       |
 
-    git add index.html styles.css favicon.svg .nojekyll README.md
-    git commit -m "Add portfolio with Rouhy experience"
-    git push origin main
+- **Add a job:** copy `src/content/experience/_template.md` to a new file without the `_`.
+  Jobs are sorted newest first by `start`.
+- **Add a project:** copy any file in `src/content/projects/`. `order` controls position.
+  Optional fields: `outcome`, `repo`, `demo`, `image`, `status: in-progress`.
+- **Hide something without deleting it:** add `draft: true`.
+- **Résumé / photo / email:** set them in `src/data/site.ts`. They stay hidden while `null`.
 
-The .nojekyll file is hidden on some systems; include it when copying locally.
-A plain HTML site also works with GitHub Pages' default processing.
+If a field is missing or malformed, `npm run build` fails with a message naming the file.
 
-## Other hosting options
+## Deploying
 
-Vercel or Cloudflare Pages can deploy these same static files from GitHub.
-Select a static/no-framework project and use the repository root as output.
+Pushing to `main` builds and deploys the site through `.github/workflows/deploy.yml`.
 
-## Scope
+One-time setup: in the repository on GitHub, open **Settings → Pages** and set
+**Source** to **GitHub Actions**.
 
-This package contains editable static HTML/CSS and the icon. It is a portable
-snapshot of the portfolio, not the original React project. Changes made on
-GitHub do not automatically update the separately hosted ChatGPT site.
-
-Official setup guide:
-https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+The workflow reads the site URL and base path from GitHub Pages, so the site works
+both at `https://bhavancharlie.github.io/Bhavan-Kumar-GitHub-Pages/` and, if you move it
+to a repository named `BhavanCharlie.github.io`, at `https://bhavancharlie.github.io/`.
